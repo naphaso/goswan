@@ -1,0 +1,20 @@
+version: '3'
+networks:
+  test:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.0.0/16
+services:
+  server1:
+    container_name: server1
+    build: ./images/strongswan
+    cap_add:
+      - NET_ADMIN
+    command: ["ipsec", "start", "--nofork"]
+    volumes:
+      - "./volumes/server1:/etc/swanctl/conf.d"
+    networks:
+      test:
+        ipv4_address: 10.10.0.10
