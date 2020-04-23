@@ -173,7 +173,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	remoteAddr, err := net.ResolveUDPAddr("udp", "ipsec-server:500")
+	remoteAddr, err := net.ResolveUDPAddr("udp", "127.0.0.1:500")
 	if err != nil {
 		panic(err)
 	}

@@ -4,21 +4,16 @@ import (
 	"errors"
 	"io"
 
+	"github.com/naphaso/goswan/internal/ikev2/exchange"
+
 	"github.com/naphaso/goswan/internal/ikev2/payload"
-)
-
-type ExchangeType byte
-
-const (
-	ExchangeTypeNone        ExchangeType = 0
-	ExchangeTypeIKE_SA_INIT              = 34
 )
 
 type Packet struct {
 	InitiatorSPI SPI
 	ResponderSPI SPI
 	Version      byte
-	ExchangeType ExchangeType
+	ExchangeType exchange.Type
 	Flags        byte
 	MessageID    uint32
 	Payloads     payload.PayloadList
@@ -65,7 +60,7 @@ func (s *Packet) ParseFrom(buf []byte) error {
 	copy(s.ResponderSPI[:], buf[8:16])
 	nextPayload := payload.PayloadType(buf[16])
 	s.Version = buf[17]
-	s.ExchangeType = ExchangeType(buf[18])
+	s.ExchangeType = exchange.Type(buf[18])
 	s.Flags = buf[19]
 	s.MessageID = uint32(buf[23]) | uint32(buf[22])<<8 | uint32(buf[21])<<16 | uint32(buf[20])<<24
 	length := uint32(buf[27]) | uint32(buf[26])<<8 | uint32(buf[25])<<16 | uint32(buf[24])<<24

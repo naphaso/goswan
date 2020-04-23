@@ -41,7 +41,7 @@ func NewPayload(payloadType PayloadType) (Payload, error) {
 	case PayloadTypeNotify:
 		return &PayloadNotify{}, nil
 	default:
-		return nil, ErrUnknownPayload
+		return &PayloadUnknown{}, nil
 	}
 }
 
